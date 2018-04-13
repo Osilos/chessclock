@@ -1,0 +1,30 @@
+{
+    "react.beautify.onSave": true,
+    // Controls if the editor should automatically format the line after typing
+    "editor.formatOnSave": true,
+    // You can auto formate any files based on extensions type. 
+    "beautify.language": {
+        "js": {
+            "type": [
+                "javascript",
+                "json"
+            ],
+            "filename": [
+                ".jshintrc",
+                ".jsbeautifyrc"
+            ]
+        },
+        "css": [
+            "css",
+            "scss"
+        ],
+        "html": [
+            "htm",
+            "html"
+        ]
+    },
+    "beautify.config": {
+        "wrap_line_length": 120,
+        "bracepadding": true
+    }
+}

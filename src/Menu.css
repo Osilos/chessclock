@@ -1,0 +1,37 @@
+
+.menu {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+  }
+  
+  .menu-activeButton {
+    background-color :#266026c7 !important;
+  }
+  
+  .menu-disableButton {
+    background-color: #ff0000c7 !important;
+  }
+  
+  .menu-text {
+    display: inline !important;
+  }
+  
+  .menu-item-info {
+    flex: 1;
+  }
+  
+  .menu-item-action {
+    flex : 3;
+    text-align: center;
+    justify-content: center !important;
+  }
+
+  .drawer-list {
+      padding: 10px !important;
+  }
+
+  .menu-drawer {
+      width: 500px;
+      max-width: 100%;
+  }

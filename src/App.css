@@ -1,0 +1,90 @@
+html, body, .fullHeight{
+  height: 100%;
+}
+
+.inlineIcon {
+  padding: 10px;
+  transform: translateY(25%)
+}
+
+.specialWord {
+  color: grey;
+  padding: 5px;
+  display: inline;
+}
+
+.container {
+  height: 100%;
+}
+
+.timer {
+  text-align: center;
+  font-family: 'Roboto';
+  margin: 0;
+  display: inline-block;
+  padding: 10px;
+  height: 150px;
+  width: 150px;
+  vertical-align: middle;
+  border-radius: 50% !important;
+  line-height: 150px;
+  font-size: 30px;
+}
+
+.timerGrid {
+  height: calc(100% - 36px); 
+}
+
+.black {
+  background-color: #3b1905e6  !important;
+  color: white;
+}
+
+.white {
+  background-color: #e4c895c7 !important;
+  color: black
+}
+
+.timerContainer {
+  height: calc(100% - 20px);
+  width: calc(100% - 20px);
+  margin: 10px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#app {
+  height: 100%;
+}
+
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
