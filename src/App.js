@@ -6,6 +6,11 @@ import Grid from 'material-ui/Grid';
 import Menu from './Menu.js'
 
 class App extends Component {
+
+    static timerTick() {
+        return 50;
+    }
+
     constructor() {
         super();
         this.state = {
@@ -17,19 +22,31 @@ class App extends Component {
             ],
             active: false,
             currentTimer: 0,
-            interval: null
+            interval: null,
+            startTime: 600000
         }
     }
 
     componentDidMount() {
-        this.setTimer(100000);
-        this.play();
+        this.setTimer(this.state.startTime);
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    handleKeyDown = (e) => {
+        if (e.keyCode === 32) {
+            this.handleTimerClick();
+        }
+
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     updateTimer = () => {
         const timers = this.state.timers;
         let newTimer = [...timers];
-        newTimer[this.state.currentTimer] -= 50;
+        newTimer[this.state.currentTimer] -= App.timerTick();
         if (newTimer[this.state.currentTimer] <= 0) {
             newTimer[this.state.currentTimer] = 0;
             this.stop();
@@ -49,7 +66,7 @@ class App extends Component {
     play() {
         const interval = setInterval(() => {
             this.updateTimer()
-        }, 50)
+        }, App.timerTick())
 
         this.setState(() => {
             return {active: true, interval: interval};
@@ -58,7 +75,6 @@ class App extends Component {
     }
 
     setTimer(time) {
-        console.log("startGame " + time);
         this.setState(() => {
             return {
                 timers: [time, time]
@@ -67,21 +83,55 @@ class App extends Component {
     }
 
     handleTimerClick = () => {
+        if (this.state.active) {
+            this.setState((prevState) => {
+                return {
+                    currentTimer: prevState.currentTimer === 1
+                        ? 0
+                        : 1
+                }
+            })
+        }
+    }
+
+    handleResetClick = () => {
+        this.setState((prevState) => {
+            return {currentTimer: 0}
+        })
+        this.setTimer(this.state.startTime);
+        this.stop();
+    }
+
+    handleInvertClick = () => {
         this.setState((prevState) => {
             return {
                 currentTimer: prevState.currentTimer === 1
                     ? 0
-                    : 1
+                    : 1,
+                colors: [
+                    prevState.colors[1], prevState.colors[0]
+                ],
+                timers: [prevState.timers[1], prevState.timers[0]]
             }
         })
     }
 
-    handleMenuClick = () => {
-        console.log("test");
+    handleToggleClick = () => {
         this.state.active
             ? this.stop()
             : this.play();
     }
+
+    handleStartTimeChange = (time) => {
+        const {hours, minutes, seconds} = time;
+        this.setState(() => {
+            return {
+                startTime: hours * 1000 * 60 * 60 + minutes * 1000 * 60 + seconds * 1000
+            }
+        });
+
+    }
+
     render() {
         var gridProps = {
             className: "timerGrid",
@@ -93,14 +143,15 @@ class App extends Component {
             xs: 6,
             sm: 6
         }
-
         return (
             <Grid className="fullHeight" container item xs={12}>
                 <Menu
-                    text={this.state.active
-                    ? "stop"
-                    : "start"}
-                    onSwitchButtonClick={() => (this.handleMenuClick())}></Menu>
+                    isActive={this.state.active}
+                    onSwitchButtonClick={() => (this.handleToggleClick())}
+                    onResetButtonClick={() => (this.handleResetClick())}
+                    onInvertButtonClick={() => (this.handleInvertClick())}
+                    onStartTimeChange={this.handleStartTimeChange}
+                    startTime={this.state.startTime}></Menu>
                 {this
                     .state
                     .colors
