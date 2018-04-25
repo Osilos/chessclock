@@ -78,9 +78,6 @@ class Menu extends Component {
             .onStartTimeChange({hours: this.state.hours, minutes: minutes, seconds: this.state.seconds});
     }
 
-    // les 3 fonctions au dessus c'est fort dégeulasse, mais j'ai pas trouvé mieux
-    // pour gérer le tout :(
-
     render() {
 
         const sideList = (
@@ -89,7 +86,7 @@ class Menu extends Component {
                     <Typographie className="menu-text" align="center" variant="title">How to use me ?</Typographie>
                 </List>
                 <Divider/>
-                <List className="drawer-list">Useee
+                <List className="drawer-list">Use
                     <Icon className="inlineIcon" color="action">play_arrow</Icon>
                     to start the clocks and
                     <Icon className="inlineIcon" color="action">pause</Icon>

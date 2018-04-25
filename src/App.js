@@ -36,7 +36,6 @@ class App extends Component {
         if (e.keyCode === 32) {
             this.handleTimerClick();
         }
-
     }
 
     componentWillUnmount() {
@@ -71,7 +70,6 @@ class App extends Component {
         this.setState(() => {
             return {active: true, interval: interval};
         })
-
     }
 
     setTimer(time) {
@@ -129,7 +127,6 @@ class App extends Component {
                 startTime: hours * 1000 * 60 * 60 + minutes * 1000 * 60 + seconds * 1000
             }
         });
-
     }
 
     render() {

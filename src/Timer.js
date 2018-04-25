@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import React, {Component} from 'react';
 
 import Utils from './Utils'
+import './Timer.css';
 
 class Timer extends Component {
 
@@ -15,7 +16,8 @@ class Timer extends Component {
                 ? 20
                 : 0}
                 className={`timerContainer ${this.props.color}`}
-                onClick={this.props.onClick}>
+                onClick={this.props.onClick}
+                onTouchEnd={this.props.onClick}>
                 <Paper
                     elevation={this.props.isActive
                     ? 20

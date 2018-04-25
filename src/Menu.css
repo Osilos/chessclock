@@ -35,3 +35,10 @@
       width: 100%;
       max-width: 500px;
   }
+
+  @media all and (max-width:750px) {
+    .menu-invertButton {
+      display: none !important;
+    }
+  }
+  

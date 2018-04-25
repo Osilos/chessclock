@@ -1,0 +1,40 @@
+.timer {
+    text-align: center;
+    font-family: 'Roboto';
+    margin: 0;
+    display: inline-block;
+    padding: 10px;
+    height: 150px;
+    width: 150px;
+    max-width: 80%;
+    vertical-align: middle;
+    border-radius: 50% !important;
+    line-height: 150px;
+    font-size: 30px;
+}
+  
+.timerGrid {
+    height: calc(100% - 36px); 
+}
+
+
+.timerContainer {
+    height: calc(100% - 20px);
+    width: calc(100% - 20px);
+    margin: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.black {
+    background-color: #3b1905e6  !important;
+    color: white;
+}
+
+.white {
+    background-color: #e4c895c7 !important;
+    color: black
+}
