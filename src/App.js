@@ -4,6 +4,9 @@ import './App.css';
 import Timer from './Timer.js'
 import Grid from 'material-ui/Grid';
 import Menu from './Menu.js'
+import Dialog, {DialogActions, DialogContent, DialogContentText, DialogTitle} from 'material-ui/Dialog';
+import Button from 'material-ui/Button';
+import Sound from 'react-sound';
 
 class App extends Component {
 
@@ -11,6 +14,13 @@ class App extends Component {
         return 50;
     }
 
+    static timeToStress() {
+        return 1000 * 10;
+    }
+
+    static defaultStartTime() {
+        return 1000 * 10 * 60;
+    }
     constructor() {
         super();
         this.state = {
@@ -22,8 +32,11 @@ class App extends Component {
             ],
             active: false,
             currentTimer: 0,
+            hasChange: false,
             interval: null,
-            startTime: 600000
+            startTime: App.defaultStartTime(),
+            end: false,
+            hasPlayEnd: false
         }
     }
 
@@ -49,6 +62,10 @@ class App extends Component {
         if (newTimer[this.state.currentTimer] <= 0) {
             newTimer[this.state.currentTimer] = 0;
             this.stop();
+
+            this.setState(() => {
+                return {end: true}
+            })
         }
         this.setState(() => {
             return {timers: newTimer}
@@ -86,7 +103,8 @@ class App extends Component {
                 return {
                     currentTimer: prevState.currentTimer === 1
                         ? 0
-                        : 1
+                        : 1,
+                    hasChange: true
                 }
             })
         }
@@ -129,6 +147,18 @@ class App extends Component {
         });
     }
 
+    handleConfirmDialog = () => {
+        this.setState(() => {
+            return {end: false, hasPlayEnd: false}
+        });
+    }
+
+    changeSoundEnd = () => {
+        this.setState(() => {
+            hasChange : false
+        })
+    }
+
     render() {
         var gridProps = {
             className: "timerGrid",
@@ -140,6 +170,7 @@ class App extends Component {
             xs: 6,
             sm: 6
         }
+
         return (
             <Grid className="fullHeight" container item xs={12}>
                 <Menu
@@ -171,6 +202,35 @@ class App extends Component {
                             </Grid>
                         )
                     })}
+                <Dialog open={this.state.end}>
+                    <DialogTitle>
+                        {`${this
+                            .state
+                            .colors[this.state.currentTimer]
+                            .toUpperCase()} lose on time.`}
+                    </DialogTitle>
+                    <DialogContent>
+                        <Button onClick={this.handleConfirmDialog}>OK</Button>
+                    </DialogContent>
+                </Dialog>
+                <Sound
+                    url="./sounds/tictac.mp3"
+                    onFinishedPlaying={() => this.setState({hasChange: false})}
+                    playStatus={this.state.hasChange
+                    ? Sound.status.PLAYING
+                    : Sound.status.STOPPED}></Sound>
+                <Sound
+                    url="./sounds/sf_tictac.mp3"
+                    playStatus={this.state.timers[this.state.currentTimer] < App.timeToStress() && this.state.active
+                    ? Sound.status.PLAYING
+                    : Sound.status.STOPPED}></Sound>
+                <Sound
+                    url="./sounds/SF-bewitch.mp3"
+                    onFinishedPlaying={() => this.setState({hasPlayEnd: true})}
+                    loop={false}
+                    playStatus={this.state.end && !this.state.hasPlayEnd
+                    ? Sound.status.PLAYING
+                    : Sound.status.STOPPED}></Sound>
             </Grid>
         );
     }

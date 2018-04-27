@@ -7,26 +7,6 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({adapter: new Adapter()});
 
 describe('app methods works correctly', () => {
-    it('App.play()', () => {
-        const wrapper = shallow(<App/>);
-        wrapper
-            .instance()
-            .play();
-
-        expect(wrapper.state().active).toEqual(true);
-        expect(wrapper.state().interval)
-            .not
-            .toBe(null);
-    })
-    it('App.stop()', () => {
-        const wrapper = shallow(<App/>);
-        wrapper
-            .instance()
-            .stop();
-
-        expect(wrapper.state().active).toEqual(false);
-        expect(wrapper.state().interval).toEqual(null);
-    })
     it('App.setTimer()', () => {
         const wrapper = shallow(<App/>);
         const time = 1000;
@@ -98,11 +78,6 @@ describe('app methods works correctly', () => {
         expect(wrapper.state().colors[1]).toEqual(colors[0]);
         expect(wrapper.state().timers[1]).toEqual(timers[0]);
         expect(wrapper.state().timers[0]).toEqual(timers[1]);
-
-        // là y a pas un moyen de faire plus court ? Et es ce que c'est pertinent de
-        // testé aussi précisement ? et es ce que c'est bein de mettre plusieurs expect
-        // dans un même 'it' ?
-
     })
     it('App.handleToggleClick', () => {
         const wrapper = shallow(<App/>);
@@ -114,11 +89,45 @@ describe('app methods works correctly', () => {
             .handleToggleClick();
 
         expect(wrapper.state().active).toBe(!active);
+    })
+    it('App.handleConfirmDialog', () => {
+        const wrapper = shallow(<App/>);
+        wrapper.setState(() => {
+            end : true
+        });
+        wrapper
+            .instance()
+            .handleConfirmDialog();
+        expect(wrapper.state().end).toBe(false);
+        expect(wrapper.state().hasPlayEnd).toBe(false);
+    })
+    it('end equal true when timer is end', () => {
+        const wrapper = shallow(<App/>);
+        var {timers, currentTimer} = wrapper.state();
 
-        // bon ici je suis pas hyper sur du test. Genre je test sur ça a bien inversé la
-        // propriété active. Mais ce que fait la fonction handleToggleClick c'est
-        // qu'elle appel soit app.play() ou soit app.stop(). Et je sais pas si c'est
-        // comme ça qu'il faut le tester...
+        timers[currentTimer] = 0;
+
+        wrapper.setState(() => {
+            timers : timers
+        })
+
+        wrapper
+            .instance()
+            .updateTimer();
+
+        expect(wrapper.state().end).toBe(true);
+    })
+    it('App.state.hasChange true after handleTimerClick', () => {
+        const wrapper = shallow(<App/>);
+        wrapper.setState(() => {
+            return {active: true}
+        }, () => {
+            wrapper
+                .instance()
+                .handleTimerClick();
+        });
+
+        expect(wrapper.state().hasChange).toBe(true);
     })
 })
 
